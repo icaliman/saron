@@ -1,0 +1,31 @@
+{
+  "name": "saron",
+  "description": "Smart Web Monitor",
+  "version": "0.0.1",
+  "homepage": "http://smartwebmonitor.com/",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/icaliman/saron.git"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "coffee-script": "~1.7.1",
+    "derby": "~0.6",
+    "derby-starter": "~0.1.0",
+    "express": "~3.4.8",
+    "d-console": "~0.0.1",
+    "d-connection-alert": "~0.1.0",
+    "d-before-unload": "~0.1.0",
+    "d-bootstrap": "~0.1.0",
+    "d-barchart": "~0.0.1",
+    "d-barchart-vanilla": "~0.0.1",
+    "d-d3-barchart": "~0.0.1"
+  },
+  "optionalDependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": "0.10.x"
+  }
+}
