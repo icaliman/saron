@@ -4,30 +4,18 @@ app.pages =
   home:
     title: 'Home'
     href: '/'
-  liveCss:
-    title: 'Live CSS'
-    href: '/live-css'
-  table:
-    title: 'Table editor'
-    href: '/table'
-  leaderboard:
-    title: 'Leaderboard'
-    href: '/leaderboard'
-  bench:
-    title: 'Bindings benchmark'
-    href: '/bench'
-  submit:
-    title: 'Submit form'
-    href: '/submit'
-  cmd:
-    title: 'Console'
-    href: '/console'
-  back:
-    title: 'Back redirect'
-    href: '/back'
-  error:
-    title: 'Error test'
-    href: '/error'
+  admin:
+    title: 'Admin'
+    href: '/admin'
+#  root:
+#    title: 'Root'
+#    href: '/root'
+#  login:
+#    title: 'Login'
+#    href: '/login'
+#  logout:
+#    title: 'Logout'
+#    href: '/logout'
 
 app.proto.navItems = (current) ->
   items = []

@@ -1,10 +1,6 @@
 <import: src="home">
-<import: src="console">
-<import: src="bench">
-<import: src="leaderboard">
-<import: src="live-css">
-<import: src="submit">
-<import: src="table">
+<import: src="login">
+<import: src="admin">
 
 <Title:>
   Derby demo: {{pageTitle($render.ns)}}
@@ -12,15 +8,35 @@
 <Body:>
   <view name="d-connection-alert"></view>
   <view name="d-before-unload"></view>
-  <nav>
-    {{each navItems($render.ns) as #item}}
-      {{if #item.isCurrent}}
-        <b>{{#item.title}}</b>
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <ul class="nav navbar-nav">
+        {{each navItems($render.ns) as #item}}
+          <li class="{{#item.isCurrent ? 'active' : ''}}">
+            {{if #item.isCurrent}}
+              <a>{{#item.title}}</a>
+            {{else}}
+              <a href="{{#item.href}}">{{#item.title}}</a>
+            {{/if}}
+          </li>
+        {{/each}}
+      </ul>
+      {{if _session.loggedIn}}
+        <ul class="nav navbar-nav navbar-right">
+          <li><a>Signed in as: {{_session.user.local.username}}</a></li>
+          <li><a href="/logout" class="">Logout</a></li>
+        </ul>
       {{else}}
-        <a href={{#item.href}}>{{#item.title}}</a>
+        <a href="/login" class="btn btn-default navbar-btn navbar-right">Connect</a>
       {{/if}}
-      {{unless #item.isLast}} | {{/unless}}
-    {{/each}}
-    <hr>
+    </div>
   </nav>
+
+  {{if _session.flash.error}}
+    <alert type="danger" dismiss="&times;">{{_session.flash.error}}</alert>
+  {{/if}}
+
   <view name="{{$render.ns}}"></view>
+
+  <script type="text/javascript" src="/primus.io.js"></script>
+  <!--<script type="text/javascript" src="/term.js"></script>-->
