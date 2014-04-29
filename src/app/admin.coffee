@@ -5,7 +5,7 @@ app.get app.pages.admin.href+'/:nodeId?', (page, model, params, next) ->
 
   return page.redirect '/login' unless user
 
-  servers = model.query 'servers', {userId: user.id}
+  servers = model.query 'servers', {userId: user.id, $orderby: {name: 1}}
 
   servers.subscribe (err) ->
     next err if err

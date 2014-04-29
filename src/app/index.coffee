@@ -18,7 +18,8 @@ require './admin'
 
 
 modules = require('../../config/modules.js').modules
-app.proto.modules = modules
+app.proto.modules = ->
+  return modules
 
 
 # Init Saron components
