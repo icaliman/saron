@@ -22,15 +22,15 @@
         <pane title="Terminal">
           <view name="saron-terminal"></view>
         </pane>
-        <pane title="Terminal2">
-          <view name="saron-terminal2"></view>
-        </pane>
-        <pane title="Console">
-          <view name="saron-console"></view>
-        </pane>
         <pane title="Logs">
           :)
         </pane>
+
+        {{each servers as #serverss}}
+          <pane title="Logs">
+            :)
+          </pane>
+        {{/each}}
       </tabs>
     </div>
   </div>
