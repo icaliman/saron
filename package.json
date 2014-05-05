@@ -24,8 +24,7 @@
     "d-before-unload": "~0.1.0",
     "d-bootstrap": "~0.1.0",
     "primus.io": "~3.1.0",
-    "browserchannel": "~1.2.0",
-    "term.js": "0.0.4"
+    "browserchannel": "~1.2.0"
   },
   "optionalDependencies": {},
   "devDependencies": {},

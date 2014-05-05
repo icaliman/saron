@@ -15,13 +15,11 @@ app.get app.pages.admin.href+'/:nodeId?', (page, model, params, next) ->
     page.render 'admin'
 
 
-app.component 'admin', class Admin
+app.component 'admin:servers-list', class ServersList
 
   init: (model) ->
     console.log ">>>>>>>>>>> INIT ADMIN <<<<<<<<<<<<"
-    @servers = model.ref 'servers', model.root.at("_page.servers")
-
-    @select(0)
+    @servers = model.at 'servers'
 
     if process.title is 'browser' and not window.primus
       console.log ">>>>>>>>>>>>>>>>>>>>>>> BROWSER: CREATE PRIMUS <<<<<<<<<<<<<<<<<<<<<<<"
@@ -29,13 +27,36 @@ app.component 'admin', class Admin
 
   create: (model) ->
     console.log ">>>>>>>>>>> CREATE ADMIN <<<<<<<<<<<<"
+    @calculateContentBox()
+
+    @select(0)
 
 
   select: (index) ->
-    @model.ref 'selected', @servers.at index
-    @model.root.ref '_page.selectedServer', @servers.at index
+    @model.set 'selectedServer', @servers.get index
 
   remove: (index) ->
 #    console.log @servers.remove index
+#    console.log "Remove:", index
+#    @model.root.remove "_page.servers", index
 #    console.log @servers.get().length, Math.min(index, @servers.get().length-1)
-    @select 1
+#    @select index
+
+#    server = @servers.get index
+#    @servers.push server
+#    @model.root.push "_page.servers", server
+
+  calculateContentBox: ->
+    target = document.getElementById('contentTarget')
+    el = target.getElementsByClassName('tab-content')[0]
+    b = el.getBoundingClientRect()
+    size =
+      width: window.innerWidth || document.body.clientWidth
+      height: window.innerHeight || document.body.clientHeight
+    box =
+      width: b.width
+      height: size.height - b.top
+    @model.root.set '_page.contentBox', box
+
+    el.style.maxWidth = box.width + 'px'
+    el.style.maxHeight = box.height + 'px'

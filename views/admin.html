@@ -1,26 +1,16 @@
 <index:>
   <div>
     <div class="col-md-3">
-      <h1>Monitored servers</h1>
-      <ul class="nav nav-pills nav-stacked">
-        {{each servers as #server, #i}}
-          <li on-click="select(#i)" class="{{if selected === #server}}active{{/if}}">
-            <a>
-              {{#server.name}}
-              <button type="button" class="close" on-click="remove(#i)">&times;</button>
-            </a>
-          </li>
-        {{/each}}
-      </ul>
+      <view name="servers-list" servers="{{_page.servers}}" selected-server="{{_page.selectedServer}}"></view>
     </div>
-    <div class="col-md-9">
+    <div id="contentTarget" class="col-md-9">
       <tabs selected-index="{{_page.currentTab}}">
 
         <pane title="Monitor">
-          <view name="saron-monitor"></view>
+          <view name="saron-monitor" servers="{{_page.servers}}" selected-server="{{_page.selectedServer}}"></view>
         </pane>
         <pane title="Terminal">
-          <view name="saron-terminal"></view>
+          <view name="saron-terminal" servers="{{_page.servers}}" selected-server="{{_page.selectedServer}}"></view>
         </pane>
         <pane title="Logs">
           :)
@@ -34,3 +24,16 @@
       </tabs>
     </div>
   </div>
+
+<servers-list:>
+  <h1>Monitored servers</h1>
+  <ul class="nav nav-pills nav-stacked">
+    {{each servers as #server, #i}}
+    <li on-click="select(#i)" class="{{if selectedServer === #server}}active{{/if}}">
+      <a>
+        {{#server.name}}
+        <button type="button" class="close" on-click="remove(#i)">&times;</button>
+      </a>
+    </li>
+    {{/each}}
+  </ul>
