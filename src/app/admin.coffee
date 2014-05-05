@@ -54,9 +54,9 @@ app.component 'admin:servers-list', class ServersList
       width: window.innerWidth || document.body.clientWidth
       height: window.innerHeight || document.body.clientHeight
     box =
-      width: b.width
-      height: size.height - b.top
+      width: Math.max(b.width, 200)
+      height: Math.max(size.height - b.top, 200)
     @model.root.set '_page.contentBox', box
 
-    el.style.maxWidth = box.width + 'px'
-    el.style.maxHeight = box.height + 'px'
+    el.style.width = box.width + 'px'
+    el.style.height = box.height + 'px'
