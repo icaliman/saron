@@ -25,9 +25,11 @@ app.component 'admin:servers-list', class ServersList
       console.log ">>>>>>>>>>>>>>>>>>>>>>> BROWSER: CREATE PRIMUS <<<<<<<<<<<<<<<<<<<<<<<"
       window.primus = new Primus()
 
-  create: (model) ->
+  create: (model, dom) ->
     console.log ">>>>>>>>>>> CREATE ADMIN <<<<<<<<<<<<"
+
     @calculateContentBox()
+    @dom.addListener 'resize', window, => @calculateContentBox()
 
     @select(0)
 
@@ -49,6 +51,7 @@ app.component 'admin:servers-list', class ServersList
   calculateContentBox: ->
     target = document.getElementById('contentTarget')
     el = target.getElementsByClassName('tab-content')[0]
+    el.style.width = '';
     b = el.getBoundingClientRect()
     size =
       width: window.innerWidth || document.body.clientWidth
