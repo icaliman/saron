@@ -49,6 +49,8 @@ app.component 'admin:servers-list', class ServersList
 #    @model.root.push "_page.servers", server
 
   calculateContentBox: ->
+    return if @lastWindowWidth == (window.innerHeight || document.body.clientHeight)
+
     target = document.getElementById('contentTarget')
     el = target.getElementsByClassName('tab-content')[0]
     el.style.width = '';
@@ -63,3 +65,5 @@ app.component 'admin:servers-list', class ServersList
 
     el.style.width = box.width + 'px'
     el.style.height = box.height + 'px'
+
+    @lastWindowWidth = size.width
