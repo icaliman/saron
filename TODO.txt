@@ -4,4 +4,4 @@ TODO:
 2. Alerte
 3. Optimizare la Monitor: redesenare pe canvas doar cand canvasul e vizibil
 4. Adaugare culori pentru terminal, alb, negru (zi, noapte)
-5. 
+5. Adaugare buton pentru reconectarea terminalelor
