@@ -1,6 +1,7 @@
 module.exports = {
   modules: [
     "terminal",
-    "monitor"
+    "monitor",
+    "logs"
   ]
 }

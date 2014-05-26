@@ -13,13 +13,11 @@
           <view name="saron-terminal" servers="{{_page.servers}}" selected-server="{{_page.selectedServer}}"></view>
         </pane>
         <pane title="Logs">
-          :)
+          <view name="saron-logs" servers="{{_page.servers}}" selected-server="{{_page.selectedServer}}"></view>
         </pane>
 
         {{each servers as #serverss}}
-          <pane title="Logs">
-            :)
-          </pane>
+
         {{/each}}
       </tabs>
     </div>
