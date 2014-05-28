@@ -2,8 +2,9 @@ app = require './index'
 
 app.get app.pages.admin.href+'/:nodeId?', (page, model, params, next) ->
   user = model.get '_session.user'
-
   return page.redirect '/login' unless user
+
+  console.log(user)
 
   servers = model.query 'servers', {userId: user.id, $orderby: {name: 1}}
 
@@ -11,6 +12,8 @@ app.get app.pages.admin.href+'/:nodeId?', (page, model, params, next) ->
     next err if err
 
     model.ref "_page.servers", servers
+
+    console.log servers.get(), user.id
 
     page.render 'admin'
 

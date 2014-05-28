@@ -109,7 +109,7 @@ function setup(app, options) {
 
 var errorApp = derby.createApp();
 errorApp.loadViews(__dirname + '/../../views/errors/error');
-errorApp.loadStyles(__dirname + '/../../styles/error');
+errorApp.loadStyles(__dirname + '/../../assets/styles/error');
 
 function errorMiddleware(err, req, res, next) {
   if (!err) return next();

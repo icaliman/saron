@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "coffee-script": "~1.7.1",
-    "derby": "~0.6",
+    "derby": "~0.6.0-alpha8",
     "express": "~3.4.8",
     "coffeeify": "~0.6.0",
     "redis": "~0.10.1",

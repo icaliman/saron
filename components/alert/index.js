@@ -3,6 +3,7 @@ module.exports = Alert
 function Alert() {}
 
 Alert.prototype.view = __dirname;
+Alert.prototype.name = 'alert';
 
 Alert.prototype.create = function(model, dom) {
   this.model.setNull('hidden', false);
