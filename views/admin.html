@@ -1,19 +1,20 @@
 <index:>
   <div>
+
     <div class="col-sm-3">
-      <view name="servers-list" servers="{{_page.servers}}" selected-server="{{_page.selectedServer}}"></view>
+      <view name="server-list" servers="{{#root._page.servers}}"></view>
     </div>
-    <div id="contentTarget" class="col-sm-9">
-      <tabs selected-index="{{_page.currentTab}}">
+    <div as="contentTarget" class="col-sm-9">
+      <tabs selected-index="{{#root._page.currentTab}}">
 
         <pane title="Monitor">
-          <view name="saron-monitor" servers="{{_page.servers}}" selected-server="{{_page.selectedServer}}"></view>
+          <view name="saron-monitor" servers="{{#root._page.servers}}" selected-server="{{#root._page.selectedServer}}"></view>
         </pane>
         <pane title="Terminal">
-          <view name="saron-terminal" servers="{{_page.servers}}" selected-server="{{_page.selectedServer}}"></view>
+          <view name="saron-terminal" servers="{{#root._page.servers}}" selected-server="{{#root._page.selectedServer}}"></view>
         </pane>
         <pane title="Logs">
-          <view name="saron-logs" servers="{{_page.servers}}" selected-server="{{_page.selectedServer}}"></view>
+          <view name="saron-logs" servers="{{#root._page.servers}}" selected-server="{{#root._page.selectedServer}}"></view>
         </pane>
 
         {{each servers as #serverss}}
@@ -23,15 +24,15 @@
     </div>
   </div>
 
-<servers-list:>
+<server-list:>
   <h1>Monitored servers</h1>
   <ul class="nav nav-pills nav-stacked">
     {{each servers as #server, #i}}
-    <li on-click="select(#i)" class="{{if selectedServer === #server}}active{{/if}}">
-      <a>
-        {{#server.name}}
-        <button type="button" class="close" on-click="remove(#i)">&times;</button>
-      </a>
-    </li>
+      <li on-click="select(#i)" class="{{if #root._page.selectedServer === #server}}active{{/if}}">
+        <a>
+          {{#server.name}}
+          <button type="button" class="close" on-click="remove(#i)">&times;</button>
+        </a>
+      </li>
     {{/each}}
   </ul>

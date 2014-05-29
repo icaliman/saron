@@ -6,7 +6,8 @@ var RedisStore = require('connect-redis')(express);
 var racerBrowserChannel = require('racer-browserchannel');
 var liveDbMongo = require('livedb-mongo');
 var parseUrl = require('url').parse;
-var auth = require('d-auth');
+//var auth = require('d-auth');
+var derbyLogin = require('derby-login');
 derby.use(require('racer-bundle'));
 
 exports.setup = setup;
@@ -48,22 +49,50 @@ function setup(app, options) {
     expressApp.use(express.static(options.static));
   }
 
-  auth_options = {
-    strategies: {},
-    passport: {
-      failureRedirect: '/login',
-      successRedirect: '/admin'
+  var auth_options = {
+    collection: 'auths', // db collection
+    publicCollection: 'users', // projection of db collection
+    passport: { // passportjs options
+      registerCallback: function(req, res, user, done) {
+        var model = req.getModel();
+        var $user = model.at('auths.' + user.id);
+        model.fetch($user, function() {
+          $user.set('email', $user.get('local.email'), done);
+        })
+      }
     },
-    passUser: true,
-    site: {
-      domain: 'http://localhost:3000',
-      name: 'My Site',
-      email: 'admin@mysite.com'
+    strategies: { // passportjs strategies
+//      facebook: {
+//        strategy: require('passport-facebook').Strategy,
+//        conf: {
+//          clientID: '58362219983',
+//          clientSecret: 'da0fb6cbcb6cac1a0aca9f78200935d2',
+//          callbackURL: 'http://localhost:3000/auth/facebook/callback'
+//        }
+//      },
+//      github: {
+//        strategy: require('passport-github').Strategy,
+//        conf: {
+//          clientID: 'eeb00e8fa12f5119e5e9',
+//          clientSecret: '61631bdef37fce808334c83f1336320846647115'
+//        }
+//      },
+//      vkontakte: {
+//        strategy: require('passport-vkontakte').Strategy,
+//        conf: {
+//          clientID: '4373291',
+//          clientSecret: 'fOZiLyGhSH1DHWLFFfZo',
+//          callbackURL: 'http://localhost:3000/auth/vkontakte/callback'
+//        }
+//      }
     },
-    smtp: {
-      service: 'Gmail',
-      user: 'admin@mysite.com',
-      pass: 'abc'
+    user: { // projection
+      id: true,
+      email: true,
+//      local: true,
+      facebook: true,
+      github: true,
+      vkontakte: true
     }
   }
 
@@ -82,13 +111,16 @@ function setup(app, options) {
 //    .use(createUserId)
     .use(express.bodyParser())
 //    .use(express.methodOverride())
-    .use(auth.middleware(auth_options))
+//    .use(auth.middleware({passUser: true}))
+    .use(derbyLogin.middleware(auth_options))
 
 
     // Creates an express middleware from the app's routes
     .use(app.router())
     .use(expressApp.router)
     .use(errorMiddleware)
+
+  derbyLogin.routes(expressApp, store);
 
   expressApp.all('*', function(req, res, next) {
     next('404: ' + req.url);

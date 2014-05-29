@@ -23,8 +23,8 @@
       </ul>
       {{if _session.loggedIn}}
         <ul class="nav navbar-nav navbar-right">
-          <li><a>Signed in as: {{_session.user.local.username}}</a></li>
-          <li><a href="/logout" class="">Logout</a></li>
+          <li><a>Signed in as: {{_session.user.email}}</a></li>
+          <li><a href="/auth/logout" class="">Logout</a></li>
         </ul>
       {{else}}
         <a href="/login" class="btn btn-default navbar-btn navbar-right">Connect</a>
