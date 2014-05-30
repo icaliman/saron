@@ -25,7 +25,6 @@ app.get '*', (page, model, params, next) ->
 
 
 require './pages'
-
 require './home'
 require './login'
 require './admin'
@@ -37,4 +36,4 @@ app.proto.modules = ->
 
 
 # Init Saron components
-require './modules'
+require './components'

@@ -1,3 +1,7 @@
+##
+##   THIS IS AUTO GENERATED, MODIFICATIONS WILL BE DELETED
+##
+
 app = require './index'
 
 ##INIT COMPONENTS##
