@@ -22,17 +22,20 @@ app.component 'admin', class AdminComponent
     if process.title is 'browser'
       unless window.primus
         console.log ">>>>>>>>>>>>>>>>>>>>>>> BROWSER: CREATE PRIMUS <<<<<<<<<<<<<<<<<<<<<<<"
-        window.primus = new Primus() #({manual: true})
-#      window.primus.open()
+        window.primus = new Primus({manual: true})
+      window.primus.open()
 
   create: (model, dom) ->
-    console.log ">>>>>>>>>>> CREATE ADMIN <<<<<<<<<<<<", @contentTarget
+    console.log ">>>>>>>>>>> CREATE ADMIN <<<<<<<<<<<<"
 
     @target = @contentTarget.getElementsByClassName('tab-content')[0]
 
     @calculateContentBox()
     @dom.addListener 'resize', window, => @calculateContentBox()
-#    @dom.addListener 'mouseover', window, => @calculateContentBox()
+    @dom.addListener 'mouseover', @target, (e) =>
+      @target.className = 'tab-content mouse-over'
+    @dom.addListener 'mouseout', @target, (e) =>
+      @target.className = 'tab-content'
 
   calculateContentBox: ->
 #    return if @lastWindowWidth == (window.innerWidth || document.body.innerWidth)
@@ -54,8 +57,7 @@ app.component 'admin', class AdminComponent
     @lastWindowWidth = size.width
 
   destroy: () ->
-    console.log "0000000000000000000000000000000000000000000000000000000000"
-#    window.primus.end()
+    window.primus.end()
 
 app.component 'admin:server-list', class ServersListComponent
   init: (model) ->
@@ -65,8 +67,9 @@ app.component 'admin:server-list', class ServersListComponent
   select: (index) ->
     @model.root.ref '_page.selectedServer', @model.at "servers.#{index}"
 
-  remove: (index) ->
-    @servers.remove index
-#    @model.root.del "servers.#{@servers.get(index).id}"
+  remove: (index, e) ->
+#    @model.at("servers").remove index
 #    @servers.get().length, Math.min(index, @servers.get().length-1)
-    @select index
+    @model.root.del "servers.#{@model.at("servers").get(index).id}"
+
+    e.stopPropagation()

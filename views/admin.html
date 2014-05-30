@@ -1,6 +1,5 @@
 <index:>
   <div>
-
     <div class="col-sm-3">
       <view name="server-list" servers="{{#root._page.servers}}"></view>
     </div>
@@ -17,9 +16,8 @@
           <view name="saron-logs" servers="{{#root._page.servers}}" selected-server="{{#root._page.selectedServer}}"></view>
         </pane>
 
-        {{each servers as #serverss}}
-
-        {{/each}}
+        <!--{{each servers as #serverss}}-->
+        <!--{{/each}}-->
       </tabs>
     </div>
   </div>
@@ -31,7 +29,7 @@
       <li on-click="select(#i)" class="{{if #root._page.selectedServer === #server}}active{{/if}}">
         <a>
           {{#server.name}}
-          <button type="button" class="close" on-click="remove(#i)">&times;</button>
+          <button type="button" class="close" on-click="remove(#i, $event)">&times;</button>
         </a>
       </li>
     {{/each}}
