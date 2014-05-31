@@ -73,3 +73,9 @@ app.component 'admin:server-list', class ServersListComponent
     @model.root.del "servers.#{@model.at("servers").get(index).id}"
 
     e.stopPropagation()
+
+app.component 'admin:server-settings', class ServerSettings
+  deleteServer: ->
+    server = @model.at 'server'
+    if confirm "Are you sure you wont to delete server '" + server.get('name') + "' ?"
+      @model.root.del "servers.#{server.get('id')}"

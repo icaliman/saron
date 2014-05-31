@@ -3,7 +3,7 @@
     <div class="col-sm-3">
       <view name="server-list" servers="{{#root._page.servers}}"></view>
     </div>
-    <div as="contentTarget" class="col-sm-9">
+    <div as="contentTarget" class="col-sm-9 {{unless #root._page.selectedServer.connected}}disconnected{{/}}">
       <tabs selected-index="{{#root._page.currentTab}}">
 
         <pane title="Monitor">
@@ -15,22 +15,46 @@
         <pane title="Logs">
           <view name="saron-logs" servers="{{#root._page.servers}}" selected-server="{{#root._page.selectedServer}}"></view>
         </pane>
+        <pane title="Settings">
+          <view name="server-settings" server="{{#root._page.selectedServer}}"></view>
+        </pane>
 
         <!--{{each servers as #serverss}}-->
         <!--{{/each}}-->
       </tabs>
+      {{on #root._page.selectedServer}}
+        {{unless #root._page.selectedServer.connected}}
+          <div class="server-unavailable">
+            <alert type="warning" dismiss="&times;">Server '<strong>{{#root._page.selectedServer.name}}</strong>' is unavailable.</alert>
+          </div>
+        {{/}}
+      {{/}}
     </div>
   </div>
 
 <server-list:>
   <h1>Monitored servers</h1>
-  <ul class="nav nav-pills nav-stacked">
+  <ul class="server-list nav nav-pills nav-stacked">
     {{each servers as #server, #i}}
       <li on-click="select(#i)" class="{{if #root._page.selectedServer === #server}}active{{/if}}">
         <a>
           {{#server.name}}
-          <button type="button" class="close" on-click="remove(#i, $event)">&times;</button>
+          {{if #server.connected}}
+            <i class="glyphicon glyphicon-ok-sign" title="Server is unavailable!"></i>
+          {{else}}
+            <i class="glyphicon glyphicon-warning-sign"></i>
+          {{/}}
+          <!--<button type="button" class="close" on-click="remove(#i, $event)">&times;</button>-->
         </a>
       </li>
     {{/each}}
   </ul>
+
+<server-settings:>
+  <div class="server-settings">
+    <h1 class="server-title"><strong>{{@server.name}}</strong></h1>
+    <div class="dangerous-area">
+      <h2>Click the button below to stop monitoring this server:</h2>
+      <button class="btn btn-danger" on-click="deleteServer()">DELETE SERVER</button>
+    </div>
+  </div>

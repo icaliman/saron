@@ -18,9 +18,11 @@ function run(app, options, cb) {
     var server = require('http').createServer(expressApp);
 
     var primus = new Primus(server, { transformer: 'browserchannel', parser: 'JSON' });
-    require('./modules').init(AppServer.store, primus);
+    require('./modules').init(AppServer.store, primus, function() {
 
-    server.listen(port, listenCallback);
+      server.listen(port, listenCallback);
+
+    });
   }
   derby.run(createServer);
 }
