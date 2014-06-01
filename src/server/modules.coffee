@@ -18,7 +18,7 @@ openServerSideSockets = (store, primus) ->
   daemonSparkIDs = {}
 
   daemon.on 'connection', (spark) ->
-    console.log "Saron: New Daemon connection!"
+    console.log ">>>>>>>>>>>>>>>>>>>>> Saron: New Daemon connection!"
 
     serverID = null
 
@@ -51,10 +51,12 @@ openServerSideSockets = (store, primus) ->
           serverID = server.id
           daemonSparkIDs[serverID] = spark.id
 
+          model.unload()
           cb null, serverID
 
     spark.on 'end', () ->
       console.log "Daemon disconnected"
+      console.log "================================--------------------------------=========================="
 
       return if spark.id != daemonSparkIDs[serverID]
       delete daemonSparkIDs[serverID]
@@ -64,6 +66,7 @@ openServerSideSockets = (store, primus) ->
       server.fetch (err)  ->
         return if err
         server.set 'connected', false
+        model.unload()
 
 #  Init all Saron server side modules
 initPlugins = (store, primus) ->
@@ -72,11 +75,12 @@ initPlugins = (store, primus) ->
     module.init store, primus
 
 resetServersConnection = (store, cb) ->
+  console.log "------------------=================--------------------"
   model = store.createModel({fetchOnly: true})
   servers = model.at 'servers'
   servers.fetch (err) ->
     return if err
     for path of servers.root._fetchedDocs
       model.set path + '.connected', false
-
+    model.unload()
     cb && cb()

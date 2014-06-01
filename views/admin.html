@@ -22,15 +22,15 @@
         <!--{{each servers as #serverss}}-->
         <!--{{/each}}-->
       </tabs>
-      {{on #root._page.selectedServer}}
-        {{unless #root._page.selectedServer.connected}}
-          <div class="server-unavailable">
-            <alert type="warning" dismiss="&times;">Server '<strong>{{#root._page.selectedServer.name}}</strong>' is unavailable.</alert>
-          </div>
-        {{/}}
-      {{/}}
     </div>
   </div>
+  {{on #root._page.selectedServer}}
+    {{unless #root._page.selectedServer.connected}}
+      <div class="server-unavailable">
+        <alert type="danger" dismiss="&times;">Server '<strong>{{#root._page.selectedServer.name}}</strong>' is unavailable.</alert>
+      </div>
+    {{/}}
+  {{/}}
 
 <server-list:>
   <h1>Monitored servers</h1>
@@ -42,9 +42,8 @@
           {{if #server.connected}}
             <i class="glyphicon glyphicon-ok-sign" title="Server is unavailable!"></i>
           {{else}}
-            <i class="glyphicon glyphicon-warning-sign"></i>
+            <i class="glyphicon glyphicon-exclamation-sign"></i>
           {{/}}
-          <!--<button type="button" class="close" on-click="remove(#i, $event)">&times;</button>-->
         </a>
       </li>
     {{/each}}
@@ -54,7 +53,7 @@
   <div class="server-settings">
     <h1 class="server-title"><strong>{{@server.name}}</strong></h1>
     <div class="dangerous-area">
-      <h2>Click the button below to stop monitoring this server:</h2>
-      <button class="btn btn-danger" on-click="deleteServer()">DELETE SERVER</button>
+      <h2>Click the button below to stop monitoring this server.</h2>
+      <button class="btn btn-danger" on-click="deleteServer()">STOP MONITORING</button>
     </div>
   </div>

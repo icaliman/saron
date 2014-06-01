@@ -1,4 +1,5 @@
 app = require './index'
+utils = require 'saron-utils'
 
 app.get app.pages.admin.href+'/:nodeId?', (page, model, params, next) ->
   user = model.get '_session.user'
@@ -17,19 +18,11 @@ app.get app.pages.admin.href+'/:nodeId?', (page, model, params, next) ->
 
 app.component 'admin', class AdminComponent
   init: (model) ->
-    console.log ">>>>>>>>>>> INIT ADMIN <<<<<<<<<<<<"
-
-    if process.title is 'browser'
-      unless window.primus
-        console.log ">>>>>>>>>>>>>>>>>>>>>>> BROWSER: CREATE PRIMUS <<<<<<<<<<<<<<<<<<<<<<<"
-        window.primus = new Primus({manual: true})
-      window.primus.open()
+    primus = utils.getPrimus()
 
   create: (model, dom) ->
-    console.log ">>>>>>>>>>> CREATE ADMIN <<<<<<<<<<<<"
-
+    @tabs = @contentTarget.getElementsByClassName('nav-tabs')[0]
     @target = @contentTarget.getElementsByClassName('tab-content')[0]
-
     @calculateContentBox()
     @dom.addListener 'resize', window, => @calculateContentBox()
     @dom.addListener 'mouseover', @target, (e) =>
@@ -38,8 +31,6 @@ app.component 'admin', class AdminComponent
       @target.className = 'tab-content'
 
   calculateContentBox: ->
-#    return if @lastWindowWidth == (window.innerWidth || document.body.innerWidth)
-
     @target.style.width = '';
     b = @target.getBoundingClientRect()
     size =
@@ -48,20 +39,16 @@ app.component 'admin', class AdminComponent
     box =
       width: Math.max(b.width, 200)
       height: Math.max(size.height - b.top, 200)
-
-    @model.root.set '_page.contentBox', box
-
     @target.style.width = box.width + 'px'
     @target.style.height = box.height + 'px'
-
-    @lastWindowWidth = size.width
+    @tabs.width = box.width + 'px'
+    @model.root.set '_page.contentBox', box
 
   destroy: () ->
-    window.primus.end()
+    utils.destroyPrimus()
 
 app.component 'admin:server-list', class ServersListComponent
   init: (model) ->
-    console.log ">>>>>>>>>>> INIT ADMIN SERVER LIST <<<<<<<<<<<<"
     @select(0)
 
   select: (index) ->
@@ -69,7 +56,6 @@ app.component 'admin:server-list', class ServersListComponent
 
   remove: (index, e) ->
 #    @model.at("servers").remove index
-#    @servers.get().length, Math.min(index, @servers.get().length-1)
     @model.root.del "servers.#{@model.at("servers").get(index).id}"
 
     e.stopPropagation()
@@ -77,5 +63,5 @@ app.component 'admin:server-list', class ServersListComponent
 app.component 'admin:server-settings', class ServerSettings
   deleteServer: ->
     server = @model.at 'server'
-    if confirm "Are you sure you wont to delete server '" + server.get('name') + "' ?"
+    if confirm "Are you sure you wont to stop monitoring '" + server.get('name') + "' ?"
       @model.root.del "servers.#{server.get('id')}"
