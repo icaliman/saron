@@ -24,8 +24,12 @@
       </tabs>
     </div>
   </div>
-  {{on #root._page.selectedServer}}
-    {{unless #root._page.selectedServer.connected}}
+  {{on #root._page.servers}}
+    {{unless #root._page.selectedServer}}
+      <div class="server-unavailable">
+        <alert type="warning" dismiss="&times;">You are not monitoring any servers at the moment.</alert>
+      </div>
+    {{else if !#root._page.selectedServer.connected}}
       <div class="server-unavailable">
         <alert type="danger" dismiss="&times;">Server '<strong>{{#root._page.selectedServer.name}}</strong>' is unavailable.</alert>
       </div>
@@ -50,10 +54,12 @@
   </ul>
 
 <server-settings:>
-  <div class="server-settings">
-    <h1 class="server-title"><strong>{{@server.name}}</strong></h1>
-    <div class="dangerous-area">
-      <h2>Click the button below to stop monitoring this server.</h2>
-      <button class="btn btn-danger" on-click="deleteServer()">STOP MONITORING</button>
+  {{if @server}}
+    <div class="server-settings">
+      <h1 class="server-title"><strong>{{@server.name}}</strong></h1>
+      <div class="dangerous-area">
+        <h2>Click the button below to stop monitoring this server.</h2>
+        <button class="btn btn-danger" on-click="deleteServer()">STOP MONITORING</button>
+      </div>
     </div>
-  </div>
+  {{/}}

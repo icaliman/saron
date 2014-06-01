@@ -26,7 +26,7 @@ function setup(app, options) {
   }
   // redisClient.select(1);
 
-  var mongoUrl = process.env.MONGO_URL || process.env.MONGOHQ_URL || 'mongodb://localhost:27017/derby-app';
+  var mongoUrl = process.env.MONGO_URL || process.env.MONGOHQ_URL || 'mongodb://localhost:27017/saron-db';
   // The store creates models and syncs data
   var store = derby.createStore({
     db: liveDbMongo(mongoUrl + '?auto_reconnect', {safe: true})
@@ -43,58 +43,13 @@ function setup(app, options) {
     // Gzip dynamically rendered content
     .use(express.compress())
     // Respond to requests for application script bundles
-    .use(app.scripts(store, {extensions: ['.coffee']}))
+    .use(app.scripts(store, {extensions: ['.coffee']}));
 
   if (options && options.static) {
     expressApp.use(express.static(options.static));
   }
 
-  var auth_options = {
-    collection: 'auths', // db collection
-    publicCollection: 'users', // projection of db collection
-    passport: { // passportjs options
-      registerCallback: function(req, res, user, done) {
-        var model = req.getModel();
-        var $user = model.at('auths.' + user.id);
-        model.fetch($user, function() {
-          $user.set('email', $user.get('local.email'), done);
-        })
-      }
-    },
-    strategies: { // passportjs strategies
-//      facebook: {
-//        strategy: require('passport-facebook').Strategy,
-//        conf: {
-//          clientID: '58362219983',
-//          clientSecret: 'da0fb6cbcb6cac1a0aca9f78200935d2',
-//          callbackURL: 'http://localhost:3000/auth/facebook/callback'
-//        }
-//      },
-//      github: {
-//        strategy: require('passport-github').Strategy,
-//        conf: {
-//          clientID: 'eeb00e8fa12f5119e5e9',
-//          clientSecret: '61631bdef37fce808334c83f1336320846647115'
-//        }
-//      },
-//      vkontakte: {
-//        strategy: require('passport-vkontakte').Strategy,
-//        conf: {
-//          clientID: '4373291',
-//          clientSecret: 'fOZiLyGhSH1DHWLFFfZo',
-//          callbackURL: 'http://localhost:3000/auth/vkontakte/callback'
-//        }
-//      }
-    },
-    user: { // projection
-      id: true,
-      email: true,
-//      local: true,
-      facebook: true,
-      github: true,
-      vkontakte: true
-    }
-  }
+  var auth_options = require('./../../config/passport');
 
   expressApp
     // Add browserchannel client-side scripts to model bundles created by store,

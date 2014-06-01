@@ -1,26 +1,29 @@
-conf = require './../../config/modules.js'
+conf = require './../../config/modules'
 
 exports.init = (store, primus, cb) ->
   console.log "Init Saron Modules"
 
   resetServersConnection store, ->
-
     openServerSideSockets(store, primus)
-
     initPlugins(store, primus)
-
     cb && cb()
 
 
 openServerSideSockets = (store, primus) ->
-  daemon = primus.channel('daemon');
+  daemons = primus.channel('daemon');
+  browsers = primus.channel('browser');
 
   daemonSparkIDs = {}
 
-  daemon.on 'connection', (spark) ->
+  browsers.on 'connection', (spark) ->
+    spark.on 'auth', (userID) ->
+      spark.join userID
+
+  daemons.on 'connection', (spark) ->
     console.log ">>>>>>>>>>>>>>>>>>>>> Saron: New Daemon connection!"
 
     serverID = null
+    userID = null
 
     spark.on 'auth', (auth, cb) ->
       console.log "Saron daemon auth: ", auth
@@ -31,32 +34,42 @@ openServerSideSockets = (store, primus) ->
       userQuery.fetch (err) ->
         return cb err if err
         return cb "Email #{auth.email} is not registered!" unless userQuery.get()[0]
-
         user = userQuery.get()[0]
 
-        $server = model.query 'servers', {userId: user.id, name: auth.nodeName}
-        $server.fetch (err) ->
+        monitor = model.at "monitor.#{user.id}"
+        monitor.subscribe (err) ->
           return cb err if err
 
-          server = $server.get()[0]
-          unless server
-            server =
-              id: model.id()
-              userId: user.id
-              name: auth.nodeName
-            model.add 'servers', server
+          serverIds = monitor.at 'serverIds'
+          servers = model.query 'servers', serverIds
+          servers.subscribe (err) ->
+            return cb err if err
 
-          model.set "servers.#{server.id}.connected", true
+            server = null
+            for s, i in servers.get()
+              if s.name is auth.nodeName
+                server = s
+                break
+            unless server
+              server =
+                id: model.id()
+                name: auth.nodeName
+              model.add 'servers', server
+              serverIds.push server.id
 
-          serverID = server.id
-          daemonSparkIDs[serverID] = spark.id
+            model.set "servers.#{server.id}.connected", true
 
-          model.unload()
-          cb null, serverID
+            userID = user.id
+            serverID = server.id
+            daemonSparkIDs[serverID] = spark.id
+
+            browsers.room(userID).send 'server-connection', serverID, true
+
+            model.unload()
+            cb null, serverID
 
     spark.on 'end', () ->
       console.log "Daemon disconnected"
-      console.log "================================--------------------------------=========================="
 
       return if spark.id != daemonSparkIDs[serverID]
       delete daemonSparkIDs[serverID]
@@ -66,6 +79,7 @@ openServerSideSockets = (store, primus) ->
       server.fetch (err)  ->
         return if err
         server.set 'connected', false
+        browsers.room(userID).send 'server-connection', serverID, false
         model.unload()
 
 #  Init all Saron server side modules
@@ -75,7 +89,6 @@ initPlugins = (store, primus) ->
     module.init store, primus
 
 resetServersConnection = (store, cb) ->
-  console.log "------------------=================--------------------"
   model = store.createModel({fetchOnly: true})
   servers = model.at 'servers'
   servers.fetch (err) ->
