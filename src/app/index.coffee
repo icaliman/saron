@@ -30,6 +30,11 @@ require './login'
 require './admin'
 
 
+app.proto.create = (model, dom) ->
+  dom.on 'click', (e) =>
+    unless @navBar.contains e.target
+      @model.set '_page.showMenu', false
+
 modules = require('../../config/modules.js').modules
 app.proto.modules = ->
   return modules

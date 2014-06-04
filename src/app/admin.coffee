@@ -36,6 +36,7 @@ app.component 'admin', class AdminComponent
       @target.className = 'tab-content mouse-over'
     @dom.addListener 'mouseout', @target, (e) =>
       @target.className = 'tab-content'
+    model.root.on 'change', '_page.currentTab',  => setTimeout => @calculateContentBox()
 
   initSocket: ->
     primus = utils.getPrimus()
@@ -46,22 +47,26 @@ app.component 'admin', class AdminComponent
         @model.root.set "servers.#{serverID}.connected", con
 
   calculateContentBox: ->
-    @target.style.width = '';
+    @target.style.width = ''
     b = @target.getBoundingClientRect()
     scroll =
       top: document.body?.scrollTop || 0
       left: document.body?.scrollLeft || 0
-    console.log scroll
     size =
       width: window.innerWidth || document.body.clientWidth
       height: window.innerHeight || document.body.clientHeight
     box =
       width: Math.max(b.width, 200)
       height: Math.max(size.height - b.top - scroll.top - 15, 100)
+    old = @model.root.get '_page.contentBox'
     @target.style.width = box.width + 'px'
     @target.style.height = box.height + 'px'
     @tabs.style.width = box.width + 'px'
+
+    console.log "RESIZE 111: ", box
+    return if old && old.width == box.width && old.height == box.height
     @model.root.set '_page.contentBox', box
+    console.log "RESIZE 222: ", box
 
   destroy: () ->
     utils.destroyPrimus()
