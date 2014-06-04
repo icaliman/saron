@@ -48,12 +48,16 @@ app.component 'admin', class AdminComponent
   calculateContentBox: ->
     @target.style.width = '';
     b = @target.getBoundingClientRect()
+    scroll =
+      top: document.body?.scrollTop || 0
+      left: document.body?.scrollLeft || 0
+    console.log scroll
     size =
       width: window.innerWidth || document.body.clientWidth
       height: window.innerHeight || document.body.clientHeight
     box =
       width: Math.max(b.width, 200)
-      height: Math.max(size.height - b.top - 15, 200)
+      height: Math.max(size.height - b.top - scroll.top - 15, 100)
     @target.style.width = box.width + 'px'
     @target.style.height = box.height + 'px'
     @tabs.style.width = box.width + 'px'

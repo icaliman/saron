@@ -25,13 +25,13 @@
     </div>
   </div>
   {{unless #root._page.servers}}
-    <div class="server-unavailable">
+    <div class="right-bottom-alert">
       <alert type="warning" dismiss="&times;">You are not monitoring any servers at the moment.</alert>
     </div>
   {{else}}
     {{on #root._page.selectedServer}}
       {{if !#root._page.selectedServer.connected}}
-        <div class="server-unavailable">
+        <div class="right-bottom-alert">
           <alert type="danger" dismiss="&times;">Server '<strong>{{#root._page.selectedServer.name}}</strong>' is unavailable.</alert>
         </div>
       {{/}}

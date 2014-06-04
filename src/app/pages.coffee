@@ -1,9 +1,6 @@
 app = require './index'
 
 app.pages =
-  home:
-    title: 'Home'
-    href: '/'
   admin:
     title: 'Admin'
     href: '/admin'

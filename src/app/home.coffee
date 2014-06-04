@@ -1,6 +1,6 @@
 app = require './index'
 
-app.get app.pages.home.href, (page, model, params, next) ->
+app.get '/', (page, model, params, next) ->
   titleColor = model.at 'home2.titleColor'
   colors = model.at 'home2.colors'
   model.subscribe titleColor, colors, (err) ->

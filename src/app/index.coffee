@@ -34,6 +34,10 @@ modules = require('../../config/modules.js').modules
 app.proto.modules = ->
   return modules
 
+app.proto.toggleMenu = ->
+  @model.set '_page.showMenu', !@model.get '_page.showMenu'
+
+
 
 # Init Saron components
 require './components'
