@@ -1,5 +1,40 @@
+body.admin
+  overflow-x hidden
+
 .server-list
   margin-bottom 10px
+
+  li
+    position relative
+
+  p
+    width calc(100% - 25px)
+    white-space nowrap
+    overflow hidden
+    text-overflow ellipsis
+
+  .dicon
+    margin-right: 10px
+    font-size: 12px
+
+  .sicon
+    position: absolute
+    right 10px
+    top 10px
+    font-size: 17px
+
+  .glyphicon
+    color: #4DAB4F
+
+  .glyphicon-exclamation-sign
+    color #A94442
+
+  .active
+    .glyphicon
+      color white
+
+.sserver
+  cursor pointer
 
 .tab-pane
   width 100%
@@ -17,20 +52,6 @@
   position fixed
   right 25px
   bottom 5px
-
-
-.server-list
-  .glyphicon
-    float: right;
-    font-size: 17px;
-    color: #4DAB4F
-
-  .glyphicon-exclamation-sign
-    color #A94442
-
-  .active
-    .glyphicon
-      color white
 
 .server-settings
   padding 10px

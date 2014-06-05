@@ -75,8 +75,16 @@ app.component 'admin:server-list', class ServersListComponent
   init: (model) ->
     @select(0)
 
+  create: ->
+    @dom.on 'click', (e) =>
+      unless @sServer.contains e.target
+        @model.set 'showServers', false
+
   select: (index) ->
     @model.root.ref '_page.selectedServer', @model.at "servers.#{index}"
+
+  showServers: ->
+    @model.set 'showServers', true
 
 app.component 'admin:server-settings', class ServerSettings
   deleteServer: ->

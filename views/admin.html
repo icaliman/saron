@@ -39,16 +39,29 @@
   {{/}}
 
 <server-list:>
-  <h1>Monitored servers</h1>
-  <ul class="server-list nav nav-pills nav-stacked">
+  <ul class="server-list nav nav-pills nav-stacked {{if showServers}}hidden{{else}}visible-xs{{/}}">
+    <li as="sServer" class="sserver active" on-click="showServers()">
+      <a>
+        <p><i class="dicon glyphicon glyphicon-chevron-down"></i>{{#root._page.selectedServer.name}}</p>
+        {{if #root._page.selectedServer.connected}}
+          <i class="sicon glyphicon glyphicon-ok-sign"></i>
+        {{else}}
+          <i class="sicon glyphicon glyphicon-exclamation-sign"></i>
+        {{/}}
+      </a>
+    </li>
+  </ul>
+
+  <h1 class="hidden-xs">Monitored servers</h1>
+  <ul class="server-list nav nav-pills nav-stacked {{unless showServers}}hidden-xs{{/}}">
     {{each servers as #server, #i}}
       <li on-click="select(#i)" class="{{if #root._page.selectedServer === #server}}active{{/if}}">
         <a>
-          {{#server.name}}
+          <p>{{#server.name}}</p>
           {{if #server.connected}}
-            <i class="glyphicon glyphicon-ok-sign" title="Server is unavailable!"></i>
+            <i class="sicon glyphicon glyphicon-ok-sign"></i>
           {{else}}
-            <i class="glyphicon glyphicon-exclamation-sign"></i>
+            <i class="sicon glyphicon glyphicon-exclamation-sign"></i>
           {{/}}
         </a>
       </li>
