@@ -33,9 +33,9 @@ app.component 'admin', class AdminComponent
     @calculateContentBox()
     @dom.addListener 'resize', window, => @calculateContentBox()
     @dom.addListener 'mouseover', @target, (e) =>
-      @target.className = 'tab-content mouse-over'
+      @model.set 'mouseOver', true
     @dom.addListener 'mouseout', @target, (e) =>
-      @target.className = 'tab-content'
+      @model.set 'mouseOver', false
     model.root.on 'change', '_page.currentTab',  => setTimeout => @calculateContentBox()
 
   initSocket: ->
@@ -67,6 +67,9 @@ app.component 'admin', class AdminComponent
     return if old && old.width == box.width && old.height == box.height
     @model.root.set '_page.contentBox', box
     console.log "RESIZE 222: ", box
+
+    @model.set 'smallScreen', (box.width < 500)
+    @model.set 'xsmallScreen', (box.width < 400)
 
   destroy: () ->
     utils.destroyPrimus()

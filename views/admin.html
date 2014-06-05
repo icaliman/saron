@@ -3,7 +3,7 @@
     <div class="col-sm-3 server-list">
       <view name="server-list" servers="{{#root._page.servers}}"></view>
     </div>
-    <div as="contentTarget" class="col-sm-9 {{unless #root._page.selectedServer.connected}}disconnected{{/}}">
+    <div as="contentTarget" class="col-sm-9 {{unless #root._page.selectedServer.connected}}disconnected{{/}} {{if mouseOver}}mouse-over{{/}} {{if smallScreen}}small-screen{{/}} {{if xsmallScreen}}xsmall-screen{{/}}">
       <tabs selected-index="{{#root._page.currentTab}}">
 
         <pane title="Monitor">
