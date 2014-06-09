@@ -14,17 +14,17 @@ body.admin
     text-overflow ellipsis
 
   .dicon
-    margin-right: 10px
-    font-size: 12px
+    margin-right 10px
+    font-size 12px
 
   .sicon
-    position: absolute
+    position absolute
     right 10px
-    top 10px
-    font-size: 17px
+    top calc(50% - 7px)
+    font-size 17px
 
   .glyphicon
-    color: #4DAB4F
+    color #4DAB4F
 
   .glyphicon-exclamation-sign
     color #A94442
@@ -36,6 +36,12 @@ body.admin
 .sserver
   cursor pointer
 
+.content-target
+  &.xsmall-screen
+    .nav-tabs
+      a
+        padding 6px 10px
+
 .tab-pane
   width 100%
   min-height 100%
@@ -46,7 +52,7 @@ body.admin
   border-bottom #dfdfdf solid 1px
 
 .disconnected
-  /*opacity: 0.4*/
+  /*opacity 0.4*/
 
 .right-bottom-alert
   position fixed
@@ -56,15 +62,44 @@ body.admin
 .server-settings
   padding 10px
 
-  .server-title
-    margin 0
+  > div
     padding 16px
-    background #E6FFE6
     margin-bottom 10px
+
+
+  .server-title
+    background #E6FFE6
+    h1
+      margin 0
   .dangerous-area
     background #FFD3D3
-    padding 16px
+    margin-bottom 0
 
   h2
     font-size 20px
-    margin 5px 0
+    margin-bottom 5px
+
+  .server-alerts
+    background #fcf8e3
+
+  .server-alert
+    input
+      margin 5px
+    input[type="number"]
+      width 34px
+      padding 4px 8px
+      text-align right
+      outline none
+      color #333
+      background-color #FFF
+      background-repeat no-repeat
+      background-position right center
+      border 1px solid #CCC
+      border-radius 3px
+      box-shadow inset 0 1px 2px rgba(0, 0, 0, 0.075)
+      vertical-align middle
+    input::-webkit-outer-spin-button, input::-webkit-inner-spin-button
+      -webkit-appearance none
+      margin 0
+    .input-big
+      width 45px !important

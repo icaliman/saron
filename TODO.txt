@@ -4,9 +4,28 @@ TODO:
     latime de banda
     temperatura
     geo location
-    log files
+    DONE - log files
 2. Alerte
 3. Optimizare la Monitor: redesenare pe canvas doar cand canvasul e vizibil
-4. Adaugare culori pentru terminal, alb, negru (zi, noapte)
+4. DONE - Adaugare culori pentru terminal, alb, negru (zi, noapte)
 5. Adaugare buton pentru reconectarea terminalelor
 6. Monitor adaugare gradare 10, 20, 30% ...
+
+Alerte: >>> Send alerts:
+    1. hard disk
+        - cand este utilizat mai mult de X% >>> When Disk(C) is used over 10%
+
+    2. RAM
+        - cand este utilizat mai mult de X% o perioada de Y min >>> When RAM usege is over 10% for more than 5 minutes
+
+    3. Procesor
+        - cand este utilizat mai mult de X% o perioada de Y min >>> When CPU usege is over 10% for more than 5 minutes
+
+    4. Log-uri
+        - cand de pe un IP se fac mai mult de X cereri pe minut
+        - cand un log contine un anumit substring (posibil o eroare)
+
+    5. cand sa inchis conexiunea cu serverul?
+
+
+    Cand se conecteaza un demon se pornesc testele pentru alerte

@@ -1,9 +1,9 @@
 <index:>
   <div>
-    <div class="col-sm-3 server-list">
+    <div class="col-sm-3">
       <view name="server-list" servers="{{#root._page.servers}}"></view>
     </div>
-    <div as="contentTarget" class="col-sm-9 {{unless #root._page.selectedServer.connected}}disconnected{{/}} {{if mouseOver}}mouse-over{{/}} {{if smallScreen}}small-screen{{/}} {{if xsmallScreen}}xsmall-screen{{/}}">
+    <div as="contentTarget" class="col-sm-9 content-target {{unless #root._page.selectedServer.connected}}disconnected{{/}} {{if mouseOver}}mouse-over{{/}} {{if smallScreen}}small-screen{{/}} {{if xsmallScreen}}xsmall-screen{{/}}">
       <tabs selected-index="{{#root._page.currentTab}}">
 
         <pane title="Monitor">
@@ -32,7 +32,7 @@
     {{on #root._page.selectedServer}}
       {{if !#root._page.selectedServer.connected}}
         <div class="right-bottom-alert">
-          <alert type="danger" dismiss="&times;">Server '<strong>{{#root._page.selectedServer.name}}</strong>' is unavailable.</alert>
+          <alert type="danger" dismiss="&times;">"<strong>{{#root._page.selectedServer.name}}</strong>" is unavailable.</alert>
         </div>
       {{/}}
     {{/}}
@@ -71,10 +71,19 @@
 <server-settings:>
   {{if @server}}
     <div class="server-settings">
-      <h1 class="server-title"><strong>{{@server.name}}</strong></h1>
+      <div class="server-title"><h1><strong>{{@server.name}}</strong></h1></div>
+      <view name="server-alerts"></view>
       <div class="dangerous-area">
         <h2>Click the button below to stop monitoring this server.</h2>
         <button class="btn btn-danger" on-click="deleteServer()">STOP MONITORING</button>
       </div>
     </div>
   {{/}}
+
+<server-alerts:>
+  <div class="server-alerts">
+    <h2>Alerts:</h2>
+    <view name="cpu-alerts" server="{{#root._page.selectedServer}}"></view>
+    <view name="ram-alerts" server="{{#root._page.selectedServer}}"></view>
+    <view name="disk-alerts" server="{{#root._page.selectedServer}}"></view>
+  </div>
