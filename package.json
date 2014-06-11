@@ -2,7 +2,11 @@
   "name": "saron",
   "description": "Smart Web Monitor",
   "version": "0.0.1",
-  "homepage": "http://smartwebmonitor.com/",
+  "homepage": "https://github.com/icaliman/saron",
+  "main": "server.js",
+  "author": {
+    "name": "John Caliman"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/icaliman/saron.git"
@@ -12,7 +16,7 @@
   },
   "dependencies": {
     "coffee-script": "~1.7.1",
-    "derby": "~0.6.0-alpha8",
+    "derby": "~0.6.0",
     "express": "~3.4.8",
     "coffeeify": "~0.6.0",
     "redis": "~0.10.1",
