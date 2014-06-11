@@ -2,6 +2,7 @@ module.exports = {
   modules: [
     "terminal",
     "monitor",
-    "logs"
+    "logs",
+    "monitor-alerts"
   ]
 }

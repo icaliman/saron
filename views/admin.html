@@ -18,25 +18,11 @@
         <pane title="Settings">
           <view name="server-settings" server="{{#root._page.selectedServer}}"></view>
         </pane>
-
-        <!--{{each servers as #serverss}}-->
-        <!--{{/each}}-->
       </tabs>
     </div>
   </div>
-  {{unless #root._page.servers}}
-    <div class="right-bottom-alert">
-      <alert type="warning" dismiss="&times;">You are not monitoring any servers at the moment.</alert>
-    </div>
-  {{else}}
-    {{on #root._page.selectedServer}}
-      {{if !#root._page.selectedServer.connected}}
-        <div class="right-bottom-alert">
-          <alert type="danger" dismiss="&times;">"<strong>{{#root._page.selectedServer.name}}</strong>" is unavailable.</alert>
-        </div>
-      {{/}}
-    {{/}}
-  {{/}}
+  <view name="admin-alerts"></view>
+
 
 <server-list:>
   <ul class="server-list nav nav-pills nav-stacked {{if showServers}}hidden{{else}}visible-xs{{/}}">
@@ -72,7 +58,9 @@
   {{if @server}}
     <div class="server-settings">
       <div class="server-title"><h1><strong>{{@server.name}}</strong></h1></div>
-      <view name="server-alerts"></view>
+      {{each #root._views.admin_server_settings as #view}}
+        <view name="{{#view}}"></view>
+      {{/}}
       <div class="dangerous-area">
         <h2>Click the button below to stop monitoring this server.</h2>
         <button class="btn btn-danger" on-click="deleteServer()">STOP MONITORING</button>
@@ -80,10 +68,18 @@
     </div>
   {{/}}
 
-<server-alerts:>
-  <div class="server-alerts">
-    <h2>Alerts:</h2>
-    <view name="cpu-alerts" server="{{#root._page.selectedServer}}"></view>
-    <view name="ram-alerts" server="{{#root._page.selectedServer}}"></view>
-    <view name="disk-alerts" server="{{#root._page.selectedServer}}"></view>
+<admin-alerts:>
+  <div class="right-bottom-alert">
+    {{unless #root._page.servers}}
+      <alert type="warning" dismiss="&times;">You are not monitoring any servers at the moment.</alert>
+    {{else}}
+      {{on #root._page.selectedServer}}
+        {{if !#root._page.selectedServer.connected}}
+          <alert type="danger" dismiss="&times;">"<strong>{{#root._page.selectedServer.name}}</strong>" is unavailable.</alert>
+        {{/}}
+      {{/}}
+    {{/}}
+    {{each #root._views.admin_server_alerts as #view}}
+      <view name="{{#view}}"></view>
+    {{/}}
   </div>

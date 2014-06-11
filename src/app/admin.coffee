@@ -24,9 +24,14 @@ app.get app.pages.admin.href+'/:nodeId?', (page, model, params, next) ->
 
 
 app.component 'admin', class AdminComponent
-#  init: (model) ->
+  init: (model) ->
+    model.root.destroy '_views'
+    for name, view of @app.views.nameMap
+      if view.componentFactory?.constructor.prototype.targetView
+        model.root.push '_views.'+view.componentFactory.constructor.prototype.targetView, name
 
   create: (model, dom) ->
+    window.app = @app
     @initSocket()
     @tabs = @contentTarget.getElementsByClassName('nav-tabs')[0]
     @target = @contentTarget.getElementsByClassName('tab-content')[0]
