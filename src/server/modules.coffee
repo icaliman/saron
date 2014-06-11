@@ -45,6 +45,7 @@ openServerSideSockets = (store, primus) ->
           servers.subscribe (err) ->
             return cb err if err
 
+#            TODO: optimize this
             server = null
             for s, i in servers.get()
               if s.name is auth.nodeName
@@ -54,6 +55,7 @@ openServerSideSockets = (store, primus) ->
               server =
                 id: model.id()
                 name: auth.nodeName
+                userID: user.id
               model.add 'servers', server
               serverIds.push server.id
 

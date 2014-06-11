@@ -1,3 +1,4 @@
+
 fs = require 'fs'
 conf = require './../config/modules.js'
 
@@ -12,7 +13,8 @@ app_modules =
 
 str = ""
 for m in conf.modules
-  str += "app.use require('saron-#{m}/components')\n"
+  if fs.existsSync __dirname + "/../node_modules/saron-#{m}/components"
+    str += "app.use require('saron-#{m}/components')\n"
 
 app_modules = app_modules.replace "{{modules}}", str
 

@@ -3,6 +3,7 @@ module.exports = {
     "terminal",
     "monitor",
     "logs",
-    "monitor-alerts"
+    "monitor-alerts",
+    "alert-mailer"
   ]
 }
