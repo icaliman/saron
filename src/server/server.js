@@ -12,7 +12,7 @@ derby.use(require('racer-bundle'));
 
 exports.setup = setup;
 
-function setup(app, options) {
+function setup(app, options, cb) {
   var redisClient;
   if (process.env.REDIS_HOST) {
     redisClient = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST);
@@ -35,15 +35,28 @@ function setup(app, options) {
 
   store.on('bundle', function(browserify) {
     // Add support for directly requiring coffeescript in browserify bundles
-    browserify.transform(coffeeify);
+    browserify.transform({global: true}, coffeeify);
+
+    // HACK: In order to use non-complied coffee node modules, we register it
+    // as a global transform. However, the coffeeify transform needs to happen
+    // before the include-globals transform that browserify hard adds as the
+    // first trasform. This moves the first transform to the end as a total
+    // hack to get around this
+    var pack = browserify.pack;
+    browserify.pack = function(opts) {
+      var detectTransform = opts.globalTransform.shift();
+      opts.globalTransform.push(detectTransform);
+      return pack.apply(this, arguments);
+    };
   });
+
+  var publicDir = __dirname + '/../../public';
 
   var expressApp = express()
     .use(express.favicon())
     // Gzip dynamically rendered content
     .use(express.compress())
-    // Respond to requests for application script bundles
-    .use(app.scripts(store, {extensions: ['.coffee']}));
+    .use(express.static(publicDir));
 
   if (options && options.static) {
     expressApp.use(express.static(options.static));
@@ -81,9 +94,9 @@ function setup(app, options) {
     next('404: ' + req.url);
   });
 
-  exports.store = store;
-
-  return expressApp;
+  app.writeScripts(store, publicDir, {extensions: ['.coffee']}, function(err) {
+    cb(err, expressApp, store);
+  });
 }
 
 //function createUserId(req, res, next) {
@@ -95,6 +108,7 @@ function setup(app, options) {
 //}
 
 var errorApp = derby.createApp();
+errorApp.serverUse(module, 'derby-stylus');
 errorApp.loadViews(__dirname + '/../../views/errors/error');
 errorApp.loadStyles(__dirname + '/../../assets/styles/error');
 

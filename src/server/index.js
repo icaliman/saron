@@ -1,6 +1,5 @@
 var derby = require('derby');
 var Primus = require('primus.io');
-var AppServer = require('./server');
 
 exports.run = run;
 
@@ -14,14 +13,13 @@ function run(app, options, cb) {
   }
   function createServer() {
     if (typeof app === 'string') app = require(app);
-    var expressApp = AppServer.setup(app, options);
-    var server = require('http').createServer(expressApp);
-
-    var primus = new Primus(server, { transformer: 'browserchannel', parser: 'JSON' });
-    require('./modules').init(AppServer.store, primus, function() {
-
-      server.listen(port, listenCallback);
-
+    require('./server').setup(app, options, function(err, expressApp, store) {
+      if (err) throw err;
+      var server = require('http').createServer(expressApp);
+      var primus = new Primus(server, { transformer: 'browserchannel', parser: 'JSON' });
+      require('./modules').init(store, primus, function() {
+        server.listen(port, listenCallback);
+      });
     });
   }
   derby.run(createServer);

@@ -1,4 +1,5 @@
 app = module.exports = require('derby').createApp 'saron', __filename
+app.serverUse(module, 'derby-stylus')
 app.use require('d-bootstrap')
 app.loadViews __dirname + '/../../views'
 app.loadStyles __dirname + '/../../assets/styles'
@@ -13,7 +14,6 @@ app.component require('./../../components/alert')
 
 
 app.get '*', (page, model, params, next) ->
-  console.log "---------------------------------------------------------"
   if model.get '_session.loggedIn'
     userId = model.get '_session.userId'
     $user = model.at "users.#{userId}"
