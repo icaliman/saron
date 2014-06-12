@@ -28,6 +28,9 @@ openServerSideSockets = (store, primus) ->
     spark.on 'auth', (auth, cb) ->
       console.log "Saron daemon auth: ", auth
 
+      cb = (err, msg) ->
+        spark.send 'authorized', err, serverID
+
       model = store.createModel({fetchOnly: true})
 
       userQuery = model.query 'auths', {'local.email': auth.email, $limit: 1}
@@ -69,7 +72,7 @@ openServerSideSockets = (store, primus) ->
 
             model.unload()
             cb null, serverID
-            spark.send 'authorized', serverID
+#            spark.send 'authorized', serverID
 
     spark.on 'end', () ->
       console.log "Daemon disconnected"
