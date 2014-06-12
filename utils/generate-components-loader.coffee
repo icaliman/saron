@@ -18,4 +18,4 @@ for m in conf.modules
 
 app_modules = app_modules.replace "{{modules}}", str
 
-fs.writeFileSync __dirname + "./../src/app/components.coffee", app_modules
+fs.writeFileSync __dirname + "/../src/app/components.coffee", app_modules
