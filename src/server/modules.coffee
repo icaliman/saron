@@ -25,10 +25,6 @@ openServerSideSockets = (store, primus) ->
     serverID = null
     userID = null
 
-    setInterval ( ->
-      spark.send 'test', 123
-    ), 4000
-
     spark.on 'auth', (auth) ->
       console.log "Saron daemon auth: ", auth
 
@@ -77,7 +73,6 @@ openServerSideSockets = (store, primus) ->
 
             model.unload()
             cb null, serverID
-#            spark.send 'authorized', serverID
 
     spark.on 'end', () ->
       console.log "Daemon disconnected"
