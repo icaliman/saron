@@ -29,6 +29,7 @@ openServerSideSockets = (store, primus) ->
       console.log "Saron daemon auth: ", auth
 
       cb = (err, msg) ->
+        console.log "Send authorize to daemon: ", arguments
         spark.send 'authorized', err, serverID
 
       model = store.createModel({fetchOnly: true})
