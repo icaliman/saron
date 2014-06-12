@@ -25,7 +25,7 @@ openServerSideSockets = (store, primus) ->
     serverID = null
     userID = null
 
-    spark.on 'auth', (auth, cb) ->
+    spark.on 'auth', (auth) ->
       console.log "Saron daemon auth: ", auth
 
       cb = (err, msg) ->
