@@ -69,6 +69,7 @@ openServerSideSockets = (store, primus) ->
 
             model.unload()
             cb null, serverID
+            spark.send 'authorized', serverID
 
     spark.on 'end', () ->
       console.log "Daemon disconnected"
