@@ -73,8 +73,8 @@ function setup(app, options, cb) {
 
     .use(express.cookieParser())
     .use(express.session({
-      secret: process.env.SESSION_SECRET || 'YOUR SECRET HERE'
-    , store: new RedisStore()
+      secret: process.env.SESSION_SECRET || 'YOUR SECRET SEVRET HERE'
+    , store: new RedisStore({client: redisClient})
     }))
 //    .use(createUserId)
     .use(express.bodyParser())
