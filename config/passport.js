@@ -8,7 +8,8 @@ module.exports = {
       model.fetch($user, function() {
         $user.set('email', $user.get('local.email'), done);
       })
-    }
+    },
+    successRedirect: '/admin'
   },
   strategies: { // passportjs strategies
 //    facebook: {

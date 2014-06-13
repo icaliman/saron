@@ -3,7 +3,7 @@ conf = require './../../config/modules'
 exports.init = (store, primus, cb) ->
   console.log "Init Saron Modules"
 
-  resetServersConnection store, ->
+  resetServersConnectionStatus store, ->
     openServerSideSockets(store, primus)
     initPlugins(store, primus)
     cb && cb()
@@ -18,6 +18,9 @@ openServerSideSockets = (store, primus) ->
   browsers.on 'connection', (spark) ->
     spark.on 'auth', (userID) ->
       spark.join userID
+#      getUser store, userID, (user) ->
+#        console.log ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ", user.get()
+#        user.set 'sparkID', spark.id
 
   daemons.on 'connection', (spark) ->
     console.log ">>>>>>>>>>>>>>>>>>>>> Saron: New Daemon connection!"
@@ -80,13 +83,26 @@ openServerSideSockets = (store, primus) ->
       return if spark.id != daemonSparkIDs[serverID]
       delete daemonSparkIDs[serverID]
 
-      model = store.createModel({fetchOnly: true})
-      server = model.at "servers.#{serverID}"
-      server.fetch (err)  ->
-        return if err
+      getServer store, serverID, (server) ->
         server.set 'connected', false
         browsers.room(userID).send 'server-connection', serverID, false
         model.unload()
+
+
+getServer = (store, serverID, cb) ->
+  model = store.createModel()
+  server = model.at "servers.#{serverID}"
+  server.subscribe (err) =>
+    return console.log(err) if err
+    cb server
+    model.destroy()
+
+getUser = (store, userID, cb) ->
+  model = store.createModel()
+  user = model.at "auths.#{userID}"
+  user.fetch (err) =>
+    return console.log(err) if err
+    cb user
 
 #  Init all Saron server side modules
 initPlugins = (store, primus) ->
@@ -94,7 +110,7 @@ initPlugins = (store, primus) ->
     module = require 'saron-' + m
     module.init store, primus
 
-resetServersConnection = (store, cb) ->
+resetServersConnectionStatus = (store, cb) ->
   model = store.createModel({fetchOnly: true})
   servers = model.at 'servers'
   servers.fetch (err) ->
