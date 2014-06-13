@@ -1,7 +1,7 @@
 {
   "name": "saron",
   "description": "Smart Web Monitor",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/icaliman/saron",
   "main": "server.js",
   "author": {
