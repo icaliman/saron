@@ -86,7 +86,6 @@ openServerSideSockets = (store, primus) ->
       getServer store, serverID, (server) ->
         server.set 'connected', false
         browsers.room(userID).send 'server-connection', serverID, false
-        model.unload()
 
 
 getServer = (store, serverID, cb) ->
@@ -103,6 +102,7 @@ getUser = (store, userID, cb) ->
   user.fetch (err) =>
     return console.log(err) if err
     cb user
+    model.destroy()
 
 #  Init all Saron server side modules
 initPlugins = (store, primus) ->
