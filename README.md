@@ -17,7 +17,7 @@ Install Saron main app:
      > npm install
      > node server.js
 
-Open browser at [http://localhost:3000/login] and register.
+Open browser at [http://localhost:3000/login](http://localhost:3000/login) and register.
 
 To start monitoring a server or PC, install Saron Daemon
 
@@ -59,4 +59,4 @@ And finally start Saron Daemon:
 
     > node index.js
 
-Open browser at [http://localhost:3000/admin] and enjoy.
+Open browser at [http://localhost:3000/admin](http://localhost:3000/admin) and enjoy.
