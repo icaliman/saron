@@ -1,12 +1,12 @@
 Saron: Smart Web Monitor
 ==================
 
-Monitoring application for Node.js using Derby.
+### Monitoring and control remote servers and PCs using Node.js using Derby.
 
-Consists of two parts:
+Consists of two parts both written in Node.js:
 
 1. Main Saron server.
-2. Client/daemon which you can install on many remote servers/PCs to monitor them.
+2. Client/daemon which you can install on any remote server/PC to monitor it.
 
 Installation
 ==================
