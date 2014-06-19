@@ -6,6 +6,11 @@ exports.run = run;
 function run(app, options, cb) {
   options || (options = {});
   var port = options.port || process.env.PORT || 3000;
+  var dbConf = require("../../config/db");
+
+  for (var conf in dbConf) {
+    process.env[conf] = dbConf[conf];
+  }
 
   function listenCallback(err) {
     console.log('%d listening. Go to: http://localhost:%d/', process.pid, port);
