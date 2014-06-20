@@ -6,4 +6,5 @@ module.exports = {
     "monitor-alerts",
     "alert-mailer"
   ]
-}
+};
+
