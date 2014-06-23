@@ -31,12 +31,12 @@
     "browserchannel": "~1.2.0",
     "derby-login": "~0.1.1",
     "derby-stylus": "~0.1.0",
-    "saron-utils": "0.0.1",
-    "saron-monitor": "0.0.1",
-    "saron-logs": "0.0.1",
-    "saron-terminal": "0.0.1",
-    "saron-monitor-alerts": "0.0.1",
-    "saron-alert-mailer": "0.0.1"
+    "saron-utils": "*",
+    "saron-monitor": "*",
+    "saron-logs": "*",
+    "saron-terminal": "*",
+    "saron-monitor-alerts": "*",
+    "saron-alert-mailer": "*"
   },
   "optionalDependencies": {},
   "devDependencies": {},
