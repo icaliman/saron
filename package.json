@@ -33,7 +33,7 @@
     "derby-stylus": "~0.1.0",
     "saron-utils": "*",
     "saron-monitor": "*",
-    "saron-logs": "*",
+    "saron-logs": "0.0.1",
     "saron-terminal": "*",
     "saron-monitor-alerts": "*",
     "saron-alert-mailer": "*"
