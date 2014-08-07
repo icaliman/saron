@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Saron by icaliman</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/icaliman/saron">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/icaliman/saron/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/icaliman/saron/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Saron</h1>
+          <p>Smart Web Monitor</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/icaliman">icaliman</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>
+<a name="saron-smart-web-monitor" class="anchor" href="#saron-smart-web-monitor"><span class="octicon octicon-link"></span></a>Saron: Smart Web Monitor</h1>
+
+<h3>
+<a name="monitor-and-control-remote-servers-and-pcs-using-nodejs-and-derby" class="anchor" href="#monitor-and-control-remote-servers-and-pcs-using-nodejs-and-derby"><span class="octicon octicon-link"></span></a>Monitor and control remote servers and PCs using Node.js and Derby.</h3>
+
+<p>See it in action: <a href="http://youtu.be/06dIIVQUuJ4">http://youtu.be/06dIIVQUuJ4</a></p>
+
+<h1>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h1>
+
+<p>Install Saron main app:</p>
+
+<pre><code> &gt; git clone https://github.com/icaliman/saron.git
+ &gt; cd saron
+ &gt; npm install
+ &gt; node server.js
+</code></pre>
+
+<p>Open browser at <a href="http://localhost:3000/login">http://localhost:3000/login</a> and register.</p>
+
+<p>To start monitoring a server or PC, install Saron Daemon</p>
+
+<pre><code>&gt; git clone https://github.com/icaliman/saron-daemon.git
+&gt; cd saron-daemon
+&gt; npm install
+</code></pre>
+
+<p>Now you must configure Saron Daemon. Open <code>configuration.js</code> file and edit it:</p>
+
+<div class="highlight highlight-js"><pre><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">nodeName</span><span class="o">:</span> <span class="s2">"My Laptop"</span><span class="p">,</span> <span class="c1">// a name for monitored server</span>
+  <span class="nx">auth</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">email</span><span class="o">:</span> <span class="s2">"your_email_here@gmail.com"</span> <span class="c1">// email whom you registered to Saron app</span>
+  <span class="p">},</span>
+  <span class="nx">plugins</span><span class="o">:</span> <span class="p">[</span> <span class="c1">// plugins you want to use for this server</span>
+    <span class="s2">"terminal"</span><span class="p">,</span> <span class="c1">// you will have a terminal in browser connected to this server, useful for remote control</span>
+    <span class="s2">"monitor"</span><span class="p">,</span>  <span class="c1">// you will see in browser CPU, RAM and Hard Disk usage</span>
+    <span class="s2">"logs"</span>      <span class="c1">// you will see in browser all logs from monitored log files</span>
+  <span class="p">],</span>
+  <span class="nx">logStreams</span><span class="o">:</span> <span class="p">{</span> <span class="c1">// monitored log files, optional</span>
+    <span class="nx">apache_stream_1</span><span class="o">:</span> <span class="p">[</span>
+      <span class="s2">"F:\\Programare\\Node.JS\\derby-0.6\\tests\\logs\\test_logs.txt"</span>
+    <span class="p">],</span>
+    <span class="nx">apache_stream_2</span><span class="o">:</span> <span class="p">[</span>
+      <span class="s2">"F:\\Programare\\Node.JS\\derby-0.6\\tests\\logs\\test_logs2.txt"</span>
+    <span class="p">]</span>
+  <span class="p">},</span>
+  <span class="nx">monitoredDrives</span><span class="o">:</span> <span class="p">[</span><span class="s1">'F'</span><span class="p">,</span> <span class="s1">'E'</span><span class="p">,</span> <span class="s1">'C'</span><span class="p">],</span> <span class="c1">// Disk drives you want to monitorize, on linux use '/'</span>
+  <span class="nx">server</span><span class="o">:</span> <span class="p">{</span> <span class="c1">// address to Saron server, you can use port and host or a full url</span>
+<span class="c1">//    url: 'https://saron-monitor-c9-icaliman.c9.io',</span>
+    <span class="nx">host</span><span class="o">:</span> <span class="s1">'127.0.0.1'</span><span class="p">,</span>
+    <span class="nx">port</span><span class="o">:</span> <span class="mi">3000</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>And finally start Saron Daemon:</p>
+
+<pre><code>&gt; node index.js
+</code></pre>
+
+<p>Open browser at <a href="http://localhost:3000/admin">http://localhost:3000/admin</a> and enjoy.</p>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-45109286-5");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
